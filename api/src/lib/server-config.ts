@@ -1,5 +1,8 @@
+import { Connection } from '@solana/web3.js'
+
 export interface ServerConfig {
   apiUrl: string
+  connection: Connection
   host: string
   port: string
 }
@@ -7,6 +10,7 @@ export interface ServerConfig {
 export function getServerConfig(): ServerConfig {
   const requiredEnvVars = [
     // Place any required environment variables here
+    'SOLANA_RPC_ENDPOINT',
   ]
   const missingEnvVars = requiredEnvVars.filter((envVar) => !process.env[envVar]?.length)
 
@@ -19,9 +23,11 @@ export function getServerConfig(): ServerConfig {
   const port = process.env.PORT || '3000'
 
   const apiUrl = process.env.API_URL || `http://${host}:${port}`
+  const connection = new Connection(process.env.SOLANA_RPC_ENDPOINT, 'confirmed')
 
   return {
     apiUrl,
+    connection,
     host,
     port,
   }

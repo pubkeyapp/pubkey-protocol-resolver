@@ -15,7 +15,7 @@ export async function server(config: ServerConfig) {
   // Parse JSON
   app.use(express.json())
   // Set base path to /api
-  app.use('/api', serverRouter())
+  app.use('/api', serverRouter(config))
   // Serve static files
   const staticPath = setupAssets(app, dir)
 
